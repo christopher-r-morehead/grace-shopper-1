@@ -14,29 +14,93 @@ We've got your back:
 
 ### Setting Up
 
-First, clone this repo locally, then remove the current `.git` folder. Follow this up with making it a new git repo.
+First, fork this repo by clicking the "Fork" button in the upper right corner.
+
+Within your forked repo, clone the repo to your local computer:
+
+- Click the green "Code" button and copy the provided URL
+- From the terminal, in your curriculum folder, enter `git clone https://github.com/YOUR-NAME/grace-shopper.git` and replace the URL with the one you just copied
+
+#### Configuring a Remote for Your Fork
+
+You need to create a link between your forked repo and the original repo in order to be able to pull down merged changes from the original repo.
+
+- Copy and paste the following into your terminal (do not change the URL this time)
 
 ```bash
-rm -rf .git
-
-git init
+git remote add upstream https://github.com/jendiorio/grace-shopper.git
 ```
 
-Then go to GitHub, create a new repository, and add that remote to this local repo.
+- To confirm that it worked, enter `git remote -v` in your terminal - you should see 4 entries total, two starting with `origin` and two starting with `upstream`
+
+#### Completing Setup
 
 Then, run `npm install` to install all node modules.
 
-You should decide on a name for your local testing database, and edit `db/index.js` changing the value of `DB_NAME`.
-
-Once you decide on that name, make sure to run `createdb` from your command line so it exists (and can be connected to).
+Run `createdb donut-hole` from your command line to create the local testing database on your computer.
 
 Finally you can run `npm run server:dev` to start the web server.
 
-In a second terminal navigate back to the local repo and run `npm run client:dev` to start the react server. 
+In a second terminal navigate back to the local repo and run `npm run client:dev` to start the react server.
 
 This is set up to run on a proxy, so that you can make calls back to your `api` without needing absolute paths. You can instead `axios.get('/api/posts')` or whatever without needing to know the root URL.
 
 Once both dev commands are running, you can start developing... the server restarts thanks to `nodemon`, and the client restarts thanks to `react-scripts`.
+
+### Working with Git
+
+#### Commit and Push Your Code
+
+**Important:** Make small and frequent pull requests.
+
+The first step is commiting your code:
+
+```bash
+git add .
+git commit -m "commit message"
+git push origin master
+```
+
+The final command above will push the code to your forked git repo.
+
+#### Creating a Pull Request
+
+- In a browser, go to your forked repo in GitHub
+- Click on the "Pull requests" tab
+- Click the green button for "New pull request"
+- On the left side, it should default to `base repository: jendiorio/grace-shopper` and `base: master` (if not, change it). The right side will be your repo and master, which you shouldn't have to change.
+- Click the green "Create pull request" button
+- The title should clearly represent the changes you are submitting
+- Add an optional comment
+- Click "Create pull request" button
+- Let your team know there is a pull request to review by copying/pasting the pull request URL into our slack group
+
+#### Reviewing a Pull Request (Approving Changes)
+
+New code will not be merged in until approved by at least one team member. Pull requests cannot be approved by the person submitting the new code.
+
+- Open the pull request URL and click the "Files changed" tab
+- To Reject Code: If changes are needed before the code can be approved, add a comment explaining what changes should be made. There are two ways to add comments:
+  - Hover over a specific line of code and click the + button, enter your comment, and click "Add single comment" (repeat for any other comments you want to add)
+  - If you want to leave a general comment, click the green "Review changes" button, enter your comment, then click "Submit review"
+- To Approve Code: If no changes are needed, click the green "Review changes" button and choose "Approve", then click the "Submit review" button
+  - On the following screen, click the green "Merge pull request" button
+
+#### Keeping in Sync
+
+After new code is merged from a pull request (as described above), the team members that did not submit the new code will need to pull down the lastest changes so we are all working from the most recent version of the code.
+
+To do so, run the following command:
+
+```bash
+git merge upstream/master
+```
+
+Then, to keep your GitHub repo (fork) in sync, run the following command:
+
+```bash
+git push origin master
+```
 
 ### Project Structure
 
@@ -84,7 +148,6 @@ heroku addons:create heroku-postgresql:hobby-dev
 This creates a heroku project which will live at https://hopeful-project-name.herokuapp.com (note, you should change this to be relevant to your project).
 
 It will also create a postgres database for you, on the free tier.
-
 
 ### Deploying
 
